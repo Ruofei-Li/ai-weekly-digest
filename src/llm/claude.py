@@ -57,7 +57,11 @@ def refine(config: Config, items: list[NewsItem]) -> dict:
             "categories": [],
         }
 
-    client = Anthropic(api_key=config.anthropic_api_key)
+    client_kwargs = {"api_key": config.anthropic_api_key}
+    if config.anthropic_base_url:
+        client_kwargs["base_url"] = config.anthropic_base_url
+
+    client = Anthropic(**client_kwargs)
     prompt = _build_prompt(items, config.max_news_per_category)
 
     response = client.messages.create(

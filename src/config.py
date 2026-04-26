@@ -6,6 +6,7 @@ from dataclasses import dataclass, field
 class Config:
     # Claude API
     anthropic_api_key: str = ""
+    anthropic_base_url: str = ""
     claude_model: str = "claude-sonnet-4-20250514"
 
     # NewsAPI (optional, free tier: 100 req/day)
@@ -28,6 +29,7 @@ class Config:
     def from_env(cls) -> "Config":
         return cls(
             anthropic_api_key=os.getenv("ANTHROPIC_API_KEY", ""),
+            anthropic_base_url=os.getenv("ANTHROPIC_BASE_URL", ""),
             newsapi_api_key=os.getenv("NEWSAPI_API_KEY", ""),
             smtp_host=os.getenv("SMTP_HOST", "smtp.qq.com"),
             smtp_port=int(os.getenv("SMTP_PORT", "587")),
