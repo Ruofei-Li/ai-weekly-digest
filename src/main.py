@@ -16,8 +16,8 @@ load_dotenv()
 from src.config import Config
 from src.sources import hackernews, arxiv, rss, newsapi
 from src.llm.claude import refine
-from src.email.template import build_html
-from src.email.sender import send
+from src.mailer.template import build_html
+from src.mailer.sender import send
 
 
 def collect_news(cfg: Config) -> list:
