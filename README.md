@@ -30,18 +30,23 @@ Fork 本仓库到你的 GitHub 账号下。
 | `EMAIL_TO` | 收信邮箱 | 是 |
 | `NEWSAPI_API_KEY` | NewsAPI Key (可选, [newsapi.org](https://newsapi.org)) | 否 |
 
-### 3. 邮件发送配置
+### 3. 邮件发送配置 (推荐 SendGrid)
 
-**QQ邮箱：**
-1. 登录 QQ 邮箱 → 设置 → 账户
-2. 找到 "POP3/SMTP 服务" → 开启
-3. 生成「授权码」→ 将授权码填入 `SMTP_PASSWORD`
-4. `SMTP_HOST=smtp.qq.com`, `SMTP_PORT=587`
+[SendGrid](https://sendgrid.com) 免费套餐 100 封/天，全球可访问：
 
-> 注意：如果 workflow 在 GitHub 海外服务器运行，QQ 邮箱 SMTP 可能被网络阻断。建议使用 **阿里云邮件推送** (DirectMail)：
-> 1. 在阿里云控制台开通「邮件推送」服务
-> 2. 创建发信地址，开启 SMTP 密码
-> 3. `SMTP_HOST=smtpdm.aliyun.com`, `SMTP_PORT=465`
+1. 注册 [SendGrid](https://signup.sendgrid.com/) (免费)
+2. 创建 API Key：**Settings → API Keys → Create API Key** (Full Access)
+3. 验证发件地址：**Settings → Sender Authentication → Single Sender Verification**
+4. 在 GitHub Secrets 中设置：
+
+| Secret | 值 |
+|--------|-----|
+| `SMTP_HOST` | `smtp.sendgrid.net` |
+| `SMTP_PORT` | `587` |
+| `SMTP_USER` | `apikey`（固定值） |
+| `SMTP_PASSWORD` | 上一步创建的 SendGrid API Key |
+| `EMAIL_FROM` | 已验证的发件地址 |
+| `EMAIL_TO` | 收件邮箱 |
 
 ### 4. 手动触发测试
 
