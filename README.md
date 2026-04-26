@@ -30,11 +30,18 @@ Fork 本仓库到你的 GitHub 账号下。
 | `EMAIL_TO` | 收信邮箱 | 是 |
 | `NEWSAPI_API_KEY` | NewsAPI Key (可选, [newsapi.org](https://newsapi.org)) | 否 |
 
-### 3. QQ 邮箱 SMTP 设置
+### 3. 邮件发送配置
 
+**QQ邮箱：**
 1. 登录 QQ 邮箱 → 设置 → 账户
 2. 找到 "POP3/SMTP 服务" → 开启
 3. 生成「授权码」→ 将授权码填入 `SMTP_PASSWORD`
+4. `SMTP_HOST=smtp.qq.com`, `SMTP_PORT=587`
+
+> 注意：如果 workflow 在 GitHub 海外服务器运行，QQ 邮箱 SMTP 可能被网络阻断。建议使用 **阿里云邮件推送** (DirectMail)：
+> 1. 在阿里云控制台开通「邮件推送」服务
+> 2. 创建发信地址，开启 SMTP 密码
+> 3. `SMTP_HOST=smtpdm.aliyun.com`, `SMTP_PORT=465`
 
 ### 4. 手动触发测试
 
