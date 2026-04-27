@@ -82,7 +82,9 @@ def main():
     html = build_html(digest)
     send(cfg, subject, html)
 
-    print(f"[Main] Digest sent! Categories: {len(digest.get('categories', []))}")
+    sections = digest.get("sections", [])
+    columns_count = sum(len(s.get("columns", [])) for s in sections)
+    print(f"[Main] Digest sent! Sections: {len(sections)}, Columns: {columns_count}")
     print("Done.")
 
 

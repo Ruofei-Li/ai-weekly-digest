@@ -6,17 +6,17 @@ from src.config import Config
 
 SYSTEM_PROMPT = """你是一个 AI 科技新闻编辑，擅长用中文撰写高质量的技术周报。
 要求：
-- 用简洁、专业的中文写摘要
+- 用简洁、专业的中文写摘要，每条 50-100 字，包含具体的技术亮点或影响
 - 保持客观，不添加评论或预测
-- 英文专有名词保留原文（如 GPT-4o、Claude Sonnet）
-- 按重要性排序每条分类内的条目
-- 优先保留有明确信息来源和具体细节的新闻"""
+- 英文专有名词保留原文（如 GPT-4o、Claude Sonnet 4）
+- 按重要性排序，优先保留有明确信息来源和具体细节的新闻
+- 每个专栏最多 5 条，宁缺毋滥"""
 
 
 def _build_prompt(items: list[NewsItem], max_per_cat: int) -> str:
     news_lines = []
     for i, item in enumerate(items):
-        desc = (item.description or "")[:300].replace("\n", " ")
+        desc = (item.description or "")[:400].replace("\n", " ")
         news_lines.append(
             f"[{i+1}] {item.title}\n"
             f"    来源: {item.source_name} | 链接: {item.url}\n"
@@ -27,24 +27,46 @@ def _build_prompt(items: list[NewsItem], max_per_cat: int) -> str:
 
     return f"""分析以下本周 AI 新闻，整理成结构化中文周报。
 
-分类体系：
-1. 🤖 新模型发布 - 新 AI 模型、LLM 发布、开源模型
-2. ⚡ 产品功能更新 - ChatGPT/Claude/Gemini 等产品更新
-3. 🛠 AI 工具推荐 - 新的 AI 应用和开发工具
-4. 🏢 行业动态 - 收购、合作、融资、人事变动
-5. 🔒 AI 安全 - 安全研究、对齐、监管、政策
-6. 📊 重磅方案 - 技术报告、评测基准、基础设施
+内容分为两大板块：
+
+**板块一：AI 科技资讯**
+包含子专栏（按实际情况动态出现，无内容则不显示）：
+- 新模型发布 — 新 AI 模型、LLM 发布、开源模型
+- 产品功能更新 — ChatGPT/Claude/Gemini 等产品更新
+- AI 工具推荐 — 新的 AI 应用和开发工具
+- 行业动态 — 收购、合作、融资、人事调整
+
+**板块二：AI 安全技术洞察**
+子专栏根据实际内容动态命名（如：安全研究、红队测试、监管政策、对齐研究等），
+不要用固定的专栏名，按本周实际安全类新闻的主题来创建。
 
 要求：
-- 每个新闻条目归入最合适的分类
+- 每条新闻写 50-100 字中文描述，包含具体技术细节、数据或影响
 - 合并来自不同源的重复报道（保留信息最完整的版本）
-- 每条约 1-2 句中文摘要
-- 每个分类最多 {max_per_cat} 条
+- 子专栏有内容才显示，无内容就整个省略
 - 删除不相关或价值低的内容
+- 每个子专栏最多 {max_per_cat} 条
 - 只输出 JSON，不要其他内容
 
-输出格式：
-{{"overview": "本周概览（2-3句话中文概述本周最重要的 AI 动态）", "categories": [{{"name": "新模型发布", "items": [{{"title": "原标题或中文翻译", "summary": "中文摘要", "url": "原文链接", "source": "来源名称"}}]}}]}}
+输出 JSON 格式：
+{{"overview": "本周概览（2-3句话中文概述本周最重要的 AI 动态）",
+"sections": [
+  {{"name": "AI 科技资讯",
+    "columns": [
+      {{"name": "新模型发布",
+        "items": [
+          {{"title": "原标题或中文翻译",
+           "summary": "50-100字中文描述，包含具体技术细节和影响",
+           "url": "原文链接",
+           "source": "来源名称"}}
+        ]}}
+    ]}},
+  {{"name": "AI 安全技术洞察",
+    "columns": [
+      {{"name": "Claude根据内容动态命名的专栏名",
+        "items": [...]}}
+    ]}}
+]}}
 
 以下是本周 AI 新闻：
 {news_text}"""
@@ -54,7 +76,7 @@ def refine(config: Config, items: list[NewsItem]) -> dict:
     if not items:
         return {
             "overview": "本周未收集到足够的 AI 新闻数据。",
-            "categories": [],
+            "sections": [],
         }
 
     client_kwargs = {"api_key": config.anthropic_api_key}
@@ -76,7 +98,6 @@ def refine(config: Config, items: list[NewsItem]) -> dict:
 
 
 def _parse_json(text: str) -> dict:
-    # Strip markdown code fences if present
     text = text.strip()
     if text.startswith("```"):
         text = re.sub(r"^```(?:json)?\s*", "", text)
