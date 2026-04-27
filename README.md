@@ -30,22 +30,22 @@ Fork 本仓库到你的 GitHub 账号下。
 | `EMAIL_TO` | 收信邮箱 | 是 |
 | `NEWSAPI_API_KEY` | NewsAPI Key (可选, [newsapi.org](https://newsapi.org)) | 否 |
 
-### 3. 邮件发送配置 (推荐 SendGrid)
+### 3. 邮件发送配置 (推荐 Gmail)
 
-[SendGrid](https://sendgrid.com) 免费套餐 100 封/天，全球可访问：
+Gmail SMTP 全球可访问，推荐用于 GitHub Actions：
 
-1. 注册 [SendGrid](https://signup.sendgrid.com/) (免费)
-2. 创建 API Key：**Settings → API Keys → Create API Key** (Full Access)
-3. 验证发件地址：**Settings → Sender Authentication → Single Sender Verification**
-4. 在 GitHub Secrets 中设置：
+1. 开启 Google 账号的**两步验证**：https://myaccount.google.com/security
+2. 生成**应用专用密码**：https://myaccount.google.com/apppasswords
+   - 选择"邮件" → "Mac" → 生成 → 复制 16 位密码
+3. 在 GitHub Secrets 中设置：
 
 | Secret | 值 |
 |--------|-----|
-| `SMTP_HOST` | `smtp.sendgrid.net` |
+| `SMTP_HOST` | `smtp.gmail.com` |
 | `SMTP_PORT` | `587` |
-| `SMTP_USER` | `apikey`（固定值） |
-| `SMTP_PASSWORD` | 上一步创建的 SendGrid API Key |
-| `EMAIL_FROM` | 已验证的发件地址 |
+| `SMTP_USER` | `你的@gmail.com` |
+| `SMTP_PASSWORD` | 上一步的 16 位 App Password |
+| `EMAIL_FROM` | `你的@gmail.com` |
 | `EMAIL_TO` | 收件邮箱 |
 
 ### 4. 手动触发测试
