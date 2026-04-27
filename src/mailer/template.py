@@ -35,7 +35,7 @@ def build_html(digest: dict) -> str:
 <body style="margin:0;padding:0;background:{BG};font-family:{FONT_FAMILY};font-size:{BASE};color:{BODY};line-height:1.7">
 <table width="100%" cellpadding="0" cellspacing="0" style="background:{BG};padding:20px 0">
 <tr><td align="center">
-<table width="860" cellpadding="0" cellspacing="0" style="background:{WHITE}">
+<table width="1290" cellpadding="0" cellspacing="0" style="background:{WHITE}">
 <!-- ======== 头部 ======== -->
 <tr><td bgcolor="{DARK}" style="padding:30px 44px;text-align:center;font-family:{FONT_FAMILY}">
 <font face="{FONT_FAMILY}" style="font-size:26pt;color:{WHITE}"><b>AI 技术洞察周报</b></font><br>
