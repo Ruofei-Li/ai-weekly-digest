@@ -57,7 +57,7 @@
                      ▼
 ┌─ 发送层 ──────────────────────────────────┐
 │  SMTP (QQ邮箱)                            │
-│  → liruofei1@huawei.com                   │
+│  → your_email@company.com                 │
 └───────────────────────────────────────────┘
                      ▲
 ┌─ 调度层 ──────────────────────────────────┐
@@ -193,7 +193,7 @@ launchd 每 300 秒 → run-digest.sh
 <key>StartInterval</key>
 <integer>300</integer>
 <key>WorkingDirectory</key>
-<string>/Users/liruofei/code/ai-weekly-digest</string>
+<string>/Users/your_name/code/ai-weekly-digest</string>
 <key>StandardOutPath</key>
 <string>/tmp/ai-weekly-digest-stdout.log</string>
 <key>StandardErrorPath</key>
@@ -293,7 +293,7 @@ text = re.sub(r",\s*([\]}])", r"\1", text)
 
 代码生成的 HTML 在浏览器里预览完美无缺——微软雅黑字体、蓝色/深青色板块标题、渐变色背景。但用户收到的邮件里：**字体是宋体，颜色没变，板块没区分**。
 
-原因：华为企业邮箱（以及很多国内企业邮箱）会过滤或覆盖内联 CSS 样式。
+原因：国内某企业邮箱（以及很多国内企业邮箱）会过滤或覆盖内联 CSS 样式。
 
 **6.1 字体和颜色**
 

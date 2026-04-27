@@ -51,6 +51,8 @@ launchd 每 300 秒执行 run-digest.sh
 
 ### 1. launchd 配置文件（plist）
 
+> 以下配置中的 `/Users/your_name/` 需替换为你的 Mac 用户名。
+
 路径：`~/Library/LaunchAgents/com.user.ai-weekly-digest.plist`
 
 ```xml
@@ -66,7 +68,7 @@ launchd 每 300 秒执行 run-digest.sh
     <!-- 要执行的脚本 -->
     <key>ProgramArguments</key>
     <array>
-        <string>/Users/liruofei/code/ai-weekly-digest/run-digest.sh</string>
+        <string>/Users/your_name/code/ai-weekly-digest/run-digest.sh</string>
     </array>
 
     <!-- 每 300 秒（5 分钟）执行一次 -->
@@ -75,7 +77,7 @@ launchd 每 300 秒执行 run-digest.sh
 
     <!-- 工作目录 -->
     <key>WorkingDirectory</key>
-    <string>/Users/liruofei/code/ai-weekly-digest</string>
+    <string>/Users/your_name/code/ai-weekly-digest</string>
 
     <!-- 环境变量 -->
     <key>EnvironmentVariables</key>
