@@ -88,7 +88,7 @@ def refine(config: Config, items: list[NewsItem]) -> dict:
 
     response = client.messages.create(
         model=config.claude_model,
-        max_tokens=4096,
+        max_tokens=8192,
         system=SYSTEM_PROMPT,
         messages=[{"role": "user", "content": prompt}],
     )
@@ -102,4 +102,9 @@ def _parse_json(text: str) -> dict:
     if text.startswith("```"):
         text = re.sub(r"^```(?:json)?\s*", "", text)
         text = re.sub(r"\s*```$", "", text)
-    return json.loads(text.strip())
+    text = text.strip()
+    # Remove trailing commas before ] and } (common LLM JSON error)
+    text = re.sub(r",\s*([\]}])", r"\1", text)
+    # Remove trailing commas in empty arrays/objects
+    text = re.sub(r",\s*,", ",", text)
+    return json.loads(text)
