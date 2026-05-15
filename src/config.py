@@ -7,7 +7,7 @@ class Config:
     # Claude API
     anthropic_api_key: str = ""
     anthropic_base_url: str = ""
-    claude_model: str = "claude-sonnet-4-6-20251001"
+    claude_model: str = "claude-sonnet-4-6"
 
     # NewsAPI (optional, free tier: 100 req/day)
     newsapi_api_key: str = ""
