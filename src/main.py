@@ -48,6 +48,12 @@ def collect_news(cfg: Config) -> list:
 def main():
     cfg = Config.from_env()
 
+    # Diagnostic: print non-sensitive config
+    print(f"[Main] claude_model={cfg.claude_model}")
+    print(f"[Main] smtp_host={cfg.smtp_host} smtp_port={cfg.smtp_port}")
+    print(f"[Main] email_from={cfg.email_from} email_to={cfg.email_to}")
+    print(f"[Main] anthropic_base_url={cfg.anthropic_base_url}")
+
     missing = []
     if not cfg.anthropic_api_key:
         missing.append("ANTHROPIC_API_KEY")

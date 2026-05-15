@@ -93,7 +93,10 @@ def refine(config: Config, items: list[NewsItem]) -> dict:
         messages=[{"role": "user", "content": prompt}],
     )
 
-    content = response.content[0].text
+    text_blocks = [b for b in response.content if b.type == "text"]
+    if not text_blocks:
+        raise ValueError("No text block in Claude response")
+    content = text_blocks[0].text
     return _parse_json(content)
 
 
